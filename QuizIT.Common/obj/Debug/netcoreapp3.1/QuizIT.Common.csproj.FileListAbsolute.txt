@@ -1,0 +1,11 @@
+C:\Users\nhannhan\Documents\Source_Code_Khong_Duoc_Xoa\Asp\DATN_UTC_2023\QuizIT\QuizIT.Common\bin\Debug\netcoreapp3.1\QuizIT.Common.deps.json
+C:\Users\nhannhan\Documents\Source_Code_Khong_Duoc_Xoa\Asp\DATN_UTC_2023\QuizIT\QuizIT.Common\bin\Debug\netcoreapp3.1\QuizIT.Common.dll
+C:\Users\nhannhan\Documents\Source_Code_Khong_Duoc_Xoa\Asp\DATN_UTC_2023\QuizIT\QuizIT.Common\bin\Debug\netcoreapp3.1\QuizIT.Common.pdb
+C:\Users\nhannhan\Documents\Source_Code_Khong_Duoc_Xoa\Asp\DATN_UTC_2023\QuizIT\QuizIT.Common\obj\Debug\netcoreapp3.1\QuizIT.Common.csproj.AssemblyReference.cache
+C:\Users\nhannhan\Documents\Source_Code_Khong_Duoc_Xoa\Asp\DATN_UTC_2023\QuizIT\QuizIT.Common\obj\Debug\netcoreapp3.1\QuizIT.Common.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nhannhan\Documents\Source_Code_Khong_Duoc_Xoa\Asp\DATN_UTC_2023\QuizIT\QuizIT.Common\obj\Debug\netcoreapp3.1\QuizIT.Common.AssemblyInfoInputs.cache
+C:\Users\nhannhan\Documents\Source_Code_Khong_Duoc_Xoa\Asp\DATN_UTC_2023\QuizIT\QuizIT.Common\obj\Debug\netcoreapp3.1\QuizIT.Common.AssemblyInfo.cs
+C:\Users\nhannhan\Documents\Source_Code_Khong_Duoc_Xoa\Asp\DATN_UTC_2023\QuizIT\QuizIT.Common\obj\Debug\netcoreapp3.1\QuizIT.Common.csproj.CoreCompileInputs.cache
+C:\Users\nhannhan\Documents\Source_Code_Khong_Duoc_Xoa\Asp\DATN_UTC_2023\QuizIT\QuizIT.Common\obj\Debug\netcoreapp3.1\QuizIT.Common.sourcelink.json
+C:\Users\nhannhan\Documents\Source_Code_Khong_Duoc_Xoa\Asp\DATN_UTC_2023\QuizIT\QuizIT.Common\obj\Debug\netcoreapp3.1\QuizIT.Common.dll
+C:\Users\nhannhan\Documents\Source_Code_Khong_Duoc_Xoa\Asp\DATN_UTC_2023\QuizIT\QuizIT.Common\obj\Debug\netcoreapp3.1\QuizIT.Common.pdb

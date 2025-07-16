@@ -1,0 +1,67 @@
+﻿@using QuizIT.Service.Entities
+@using static QuizIT.Common.Constant.Role
+@model User
+
+@{
+    var roleLst = ViewBag.RoleLst as List<Role>;
+    //Khi tạo thì đặt giá trị mặc định của quyền là quyền khách hàng
+    if (ViewBag.Action == 1)
+    {
+        Model.RoleId = CLIENT;
+    }
+}
+
+
+<div class="modal-header">
+    <h5 class="modal-title font-weight-bold">@(ViewBag.Action == 1 ? "Thêm người dùng" : "Chi tiết người dùng")</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form id="form-user">
+        <input class="d-none" type="text" name="Id" value="@ViewBag.UserId" />
+        <div class="form-group">
+            <span class="form-title required">Họ và tên</span>
+            <input class="form-input" type="text" name="FullName" value="@(ViewBag.Action == 1 ? "" : Model.FullName)" readonly="@(ViewBag.Action == 1 ? false : true)" />
+        </div>
+        <div class="form-group">
+            <span class="form-title required">Quyền</span>
+            <select class="form-input" name="RoleId">
+                @foreach (var role in roleLst)
+                {
+                    <option value="@role.Id" selected="@(role.Id == Model.RoleId ? true : false)">Quyền: @role.RoleName.Trim()</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <span class="form-title required">Tên đăng nhập</span>
+            <input class="form-input" type="text" name="UserName" value="@(ViewBag.Action == 1 ? "" : Model.UserName)" readonly="@(ViewBag.Action == 1 ? false : true)" />
+        </div>
+        @if (ViewBag.Action == 1)
+        {
+            <div class="form-group">
+                <span class="form-title required">Mật khẩu</span>
+                <input class="form-input" type="password" name="Password" value="" />
+            </div>
+        }
+        @if (ViewBag.Action != 1)
+        {
+            <div class="form-group">
+                <span class="form-title required">Ngày tạo</span>
+                <input class="form-input" type="text" value="@Model.CreateAt.ToString("dd/MM/yyyy")" readonly />
+            </div>
+        }
+    </form>
+</div>
+<div class="modal-footer">
+    @if (ViewBag.Action == 1)
+    {
+        <button class="btn-base m-btn-yellow text-white" id="btn-create">Lưu</button>
+    }
+    else
+    {
+        <button class="btn-base m-btn-yellow text-white" id="btn-update">Lưu</button>
+    }
+
+</div>

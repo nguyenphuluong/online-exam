@@ -1,0 +1,66 @@
+﻿@using QuizIT.Service.Entities
+@using QuizIT.Service.Models
+@using QuizIT.Common.Models
+
+@{
+    ViewData["Title"] = "QuizIT Admin | Thêm câu hỏi";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var categoryLst = ViewBag.CategoryLst as List<Category>;
+}
+
+@section scripts{
+    <script src="~/js/admin/question.js"></script>
+}
+<h1 class="cotent-title">Thêm câu hỏi</h1>
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="~/admin/cau-hoi">Danh sách câu hỏi</a>
+    </li>
+    <li class="breadcrumb-item active"><a href="~/admin/cau-hoi/tao">Thêm câu hỏi</a></li>
+</ol>
+<div class="content-card mt-4">
+    <h1 class="form-sub-title">Thông tin cơ bản</h1>
+    <form id="form-question">
+        <div class="form-group">
+            <span class="form-title required">Chủ đề</span>
+            <select class="form-input" type="text" name="CategoryId">
+                @foreach (var category in categoryLst)
+                {
+                    <option value="@category.Id">@category?.CategoryName.Trim()</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <span class="form-title required">Câu hỏi</span>
+            <textarea class="form-input" type="text" name="Content" cols="5"></textarea>
+        </div>
+        <div class="form-group">
+            <span class="form-title required">Đáp án A</span>
+            <textarea class="form-input" type="text" name="AnswerA" cols="5"></textarea>
+        </div>
+        <div class="form-group">
+            <span class="form-title required">Đáp án B</span>
+            <textarea class="form-input" type="text" name="AnswerB" cols="5"></textarea>
+        </div>
+        <div class="form-group">
+            <span class="form-title required">Đáp án C</span>
+            <textarea class="form-input" type="text" name="AnswerC" cols="5"></textarea>
+        </div>
+        <div class="form-group">
+            <span class="form-title required">Đáp án D</span>
+            <textarea class="form-input" type="text" name="AnswerD" cols="5"></textarea>
+        </div>
+        <div class="form-group">
+            <span class="form-title required">Đáp án đúng</span>
+            <select class="form-input" type="text" name="AnswerCorrect">
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+            </select>
+        </div>
+    </form>
+</div>
+<div class="d-flex justify-content-end mt-4">
+    <button class="btn-base m-btn-primary text-white" id="btn-create">Lưu</button>
+</div>

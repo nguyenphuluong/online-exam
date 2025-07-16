@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewData["Title"] = "QuizIT | Đăng nhập";
+    Layout = "~/Views/Shared/_LayoutAuthenticate.cshtml";
+}
+
+<h1 class="authen-title">Chào mừng đến Quiz IT</h1>
+<form id="login-form">
+    <div class="authen-group">
+        <span>Tên đăng nhập</span>
+        <input type="text" name="UserName" />
+    </div>
+    <div class="authen-group">
+        <span>Mật khẩu</span>
+        <input type="password" name="Password" />
+    </div>
+    <div class="d-flex justify-content-end align-items-center">
+        <button class="authen-btn m-btn-primary">
+            Đăng nhập
+        </button>
+    </div>
+    <div class="authen-line"></div>
+</form>
+<p class="text-center authen-nav">
+    Bạn chưa có tài khoản?
+    <a href="/registry" class="m-text-primary">Đăng ký</a>
+</p>
+

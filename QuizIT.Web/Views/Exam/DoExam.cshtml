@@ -1,0 +1,77 @@
+﻿@using QuizIT.Service.Entities
+@using QuizIT.Service.Models
+@using QuizIT.Common.Models
+@model Exam
+
+
+@{
+    ViewData["Title"] = "QuizIT | Làm đề";
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
+}
+
+@section scripts{
+    <script src="~/js/client/exam.js"></script>
+    <script src="~/js/client/do-exam.js"></script>
+}
+<div class="btn-base m-btn-primary text-white d-none" id="count-down-wrapper" data-time="@(Model.Time * 60)">
+</div>
+<div class="mb-5">
+    <h3 class="text-center exam-main-title">@Model.ExamName.Trim()</h3>
+    <p class="text-center exam-sub-title">Chủ đề: @Model.Category.CategoryName.Trim()</p>
+    <p class="text-center exam-sub-title">Thời gian làm: @(Model.Time.ToString() + " phút")</p>
+    <p class="text-center exam-sub-title">Số câu hỏi: @Model.ExamDetail.Count()</p>
+</div>
+@foreach (var examDetail in Model.ExamDetail.OrderBy(c => c.Order))
+{
+    <div class="question-item" data-target="@examDetail.QuestionId" data-order="@examDetail.Order">
+        <p class="question-title">
+            <b>Câu @examDetail.Order: @(examDetail.Question.Content)</b>
+        </p>
+        <div class="question-answer">
+            <div class="question-input">
+                <input type="radio" id="@(examDetail.QuestionId + "-A")" name="@examDetail.QuestionId" value="A" />
+            </div>
+            <div>
+                <label for="@(examDetail.QuestionId + "-A")">
+                    <span>A: </span>@examDetail.Question.AnswerA
+                </label>
+            </div>
+        </div>
+        <div class="question-answer">
+            <div class="question-input">
+                <input type="radio" id="@(examDetail.QuestionId + "-B")" name="@examDetail.QuestionId" value="B" />
+            </div>
+            <div>
+                <label for="@(examDetail.QuestionId + "-B")">
+                    <span>B: </span>@examDetail.Question.AnswerB
+                </label>
+            </div>
+        </div>
+        <div class="question-answer">
+            <div class="question-input">
+                <input type="radio" id="@(examDetail.QuestionId + "-C")" name="@examDetail.QuestionId" value="C" />
+            </div>
+            <div>
+                <label for="@(examDetail.QuestionId + "-C")">
+                    <span>C: </span>@examDetail.Question.AnswerC
+                </label>
+            </div>
+        </div>
+        <div class="question-answer">
+            <div class="question-input">
+                <input type="radio" id="@(examDetail.QuestionId + "-D")" name="@examDetail.QuestionId" value="D" />
+            </div>
+            <div>
+                <label for="@(examDetail.QuestionId + "-D")">
+                    <span>D: </span>@examDetail.Question.AnswerD
+                </label>
+            </div>
+        </div>
+        @*<p>Đúng</p>*@
+    </div>
+}
+<button class="btn-base m-btn-secondary text-white btn-submit-exam" id="btn-submit">Nộp bài</button>
+
+
+
+

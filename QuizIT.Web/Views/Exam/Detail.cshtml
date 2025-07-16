@@ -1,0 +1,98 @@
+﻿@using QuizIT.Service.Entities
+@using QuizIT.Service.Models
+@using QuizIT.Common.Models
+@model Exam
+
+
+@{
+    ViewData["Title"] = "QuizIT | Chi tiết bộ đề";
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
+    int top = 1;
+    var rankLst = ViewBag.RankLst as List<Rank>;
+    //Thêm 1 phần tử đằng sau làm lính canh
+    rankLst.Add(new Rank
+    {
+        Point = -1
+    });
+}
+
+@section scripts{
+    <script src="~/js/client/exam.js"></script>
+}
+
+<h1 class="cotent-title">Chi tiết bộ đề</h1>
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="~/bo-de">Danh sách bộ đề</a>
+    </li>
+    <li class="breadcrumb-item active"><a href="~/bo-de/chi-tiet/@Model.Id">Chi tiết bộ đề</a></li>
+</ol>
+<div class="d-flex justify-content-end mt-4">
+    <a class="btn-base m-btn-grey text-white" href="~/lich-su?examId=@Model.Id" target="_blank">
+        <i class='bx bx-time'></i>
+        Lịch sử làm
+    </a>
+    <a class="btn-base m-btn-primary text-white ml-2" href="~/bo-de/lam-de/@Model.Id">
+        <i class='bx bx-edit-alt'></i>
+        Làm ngay
+    </a>
+</div>
+<div class="content-card">
+    <div class="filter-group">
+        <h1 class="form-sub-title">Thông tin cơ bản</h1>
+        <h3 class="text-center exam-main-title">@Model.ExamName.Trim()</h3>
+        <p class="text-center exam-sub-title">Chủ đề: @Model.Category.CategoryName.Trim()</p>
+        <p class="text-center exam-sub-title">Thời gian làm: @(Model.Time.ToString() + " phút")</p>
+        <p class="text-center exam-sub-title">Số câu hỏi: @Model.ExamDetail.Count()</p>
+        <p class="text-center exam-sub-title">Người tạo: @Model.CreateByNavigation.FullName.Trim()</p>
+        <p class="text-center exam-sub-title">Số lượt làm: @Model.History.Count</p>
+        <p class="text-center exam-sub-title">
+            <i>Lưu ý: Khi hết thời gian làm bài, hệ thống sẽ tự nộp bài</i>
+        </p>
+    </div>
+</div>
+<div class="content-card mt-4">
+    <h1 class="form-sub-title">Top 10 bài làm tốt nhất</h1>
+    @if (rankLst.Count == 1)
+    {
+        <p class="text-center mt-4">Chưa có bảng xếp hạng</p>
+    }
+    else
+    {
+        <div class="table-responsive ten-item mt-4">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Top</th>
+                        <th>Người dùng</th>
+                        <th>Số câu làm đúng</th>
+                        <th>Thời gian làm</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < rankLst.Count - 1; i++)
+                    {
+                        int second = Convert.ToInt32(rankLst[i].TimeDoExam * 60);
+                        <tr>
+                            <td>@top</td>
+                            <td class="bx-500">@rankLst[i].User.FullName.Trim()</td>
+                            <td>@rankLst[i].Point</td>
+                            <td>
+                                @((second/60) + " phút " + (second % 60 != 0 ? ((second%60) + " giây") : ""))
+                            </td>
+                        </tr>
+                        if (rankLst[i].Point != rankLst[i + 1].Point)
+                        {
+                            top++;
+                        }
+                        else if (rankLst[i].TimeDoExam != rankLst[i + 1].TimeDoExam)
+                        {
+                            top++;
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

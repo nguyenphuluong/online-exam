@@ -1,0 +1,140 @@
+﻿@using QuizIT.Service.Entities
+@using QuizIT.Service.Models
+@using QuizIT.Common.Models
+@using static QuizIT.Common.Constant.Role
+@model History
+
+
+@{
+    ViewData["Title"] = "QuizIT | Chi tiết lịch sử";
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
+    int second = Convert.ToInt32(Model.TimeDoExam * 60);
+    List<HistoryDetail> historyDetailLst = Model.HistoryDetail.ToList();
+    int totalQuestions = Model.Exam.ExamDetail.Count();
+    decimal scoreDecimal = totalQuestions > 0 ? Math.Round((decimal)Model.Point / totalQuestions * 10, 2) : 0;
+}
+
+@section scripts {
+    <script src="~/js/client/exam.js"></script>
+}
+
+<div class="mb-5">
+    <h3 class="text-center exam-main-title">@Model.Exam.ExamName.Trim()</h3>
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="exam-sub-title"><strong>Chủ đề:</strong> @Model.Exam.Category.CategoryName.Trim()</p>
+                    <p class="exam-sub-title"><strong>Thời gian làm:</strong> @(Model.Exam.Time.ToString() + " phút")</p>
+                    <p class="exam-sub-title" id="time-do-exam" data-time="@Model.TimeDoExam">
+                        <strong>Thời gian hoàn thành:</strong> @((second / 60) + " phút " + (second % 60 != 0 ? ((second % 60) + " giây") : ""))
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <p class="exam-sub-title"><strong>Trạng thái đề:</strong> <span class="@(Model.Exam.IsActive == true ? "text-success" : "text-danger")">@(Model.Exam.IsActive == true ? "Hoạt động" : "Không hoạt động")</span></p>
+                    <p class="exam-sub-title"><strong>Ngày làm:</strong> @Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</p>
+                    @if (CurrentUser.Role == ADMIN)
+                    {
+                        <p class="exam-sub-title"><strong>Người làm:</strong> @Model.User.FullName.Trim()</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body text-center">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Số câu hỏi</h5>
+                    <p class="h3">@totalQuestions</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Số câu làm đúng</h5>
+                    <p class="h3 text-success">@Model.Point</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Điểm số</h5>
+                    <p class="h3 font-weight-bold @(scoreDecimal >= 5 ? "text-success" : "text-danger")">@scoreDecimal.ToString("0.00")</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@foreach (var examDetail in Model.Exam.ExamDetail.OrderBy(c => c.Order))
+{
+    //Lấy ra đáp án người dùng đã chọn
+    var quesionSelect = historyDetailLst.FirstOrDefault(c => c.QuestionId == examDetail.QuestionId);
+    /* 1 la dung, 2 la sai, 0 la chua chon dap an*/
+    var isAnswerCorrect = (quesionSelect != null && quesionSelect.AnswerSelect != "X") ? (quesionSelect.AnswerSelect == examDetail.Question.AnswerCorrect ? 1 : 2) : 0;
+    var answerSelect = quesionSelect != null ? quesionSelect.AnswerSelect : "";
+    <div class="question-item readonly card shadow-sm mb-3" data-target="@examDetail.QuestionId">
+        <div class="card-body">
+            <p class="question-title">
+                <b>Câu @examDetail.Order: @(examDetail.Question.Content)</b>
+            </p>
+            <div class="question-answer @(answerSelect == "A" && examDetail.Question.AnswerCorrect == "A" ? "bg-success text-white p-2 rounded" : (answerSelect == "A" && examDetail.Question.AnswerCorrect != "A" ? "bg-danger text-white p-2 rounded" : (examDetail.Question.AnswerCorrect == "A" ? "bg-light p-2 rounded" : "")))">
+                <div class="question-input">
+                    <input type="radio" id="@(examDetail.QuestionId + "-A")" name="@examDetail.QuestionId" value="A" checked="@(answerSelect == "A" ? true : false)" />
+                </div>
+                <div>
+                    <label for="@(examDetail.QuestionId + "-A")">
+                        <span>A: </span>@examDetail.Question.AnswerA
+                    </label>
+                </div>
+            </div>
+            <div class="question-answer @(answerSelect == "B" && examDetail.Question.AnswerCorrect == "B" ? "bg-success text-white p-2 rounded" : (answerSelect == "B" && examDetail.Question.AnswerCorrect != "B" ? "bg-danger text-white p-2 rounded" : (examDetail.Question.AnswerCorrect == "B" ? "bg-light p-2 rounded" : "")))">
+                <div class="question-input">
+                    <input type="radio" id="@(examDetail.QuestionId + "-B")" name="@examDetail.QuestionId" value="B" checked="@(answerSelect == "B" ? true : false)" />
+                </div>
+                <div>
+                    <label for="@(examDetail.QuestionId + "-B")">
+                        <span>B: </span>@examDetail.Question.AnswerB
+                    </label>
+                </div>
+            </div>
+            <div class="question-answer @(answerSelect == "C" && examDetail.Question.AnswerCorrect == "C" ? "bg-success text-white p-2 rounded" : (answerSelect == "C" && examDetail.Question.AnswerCorrect != "C" ? "bg-danger text-white p-2 rounded" : (examDetail.Question.AnswerCorrect == "C" ? "bg-light p-2 rounded" : "")))">
+                <div class="question-input">
+                    <input type="radio" id="@(examDetail.QuestionId + "-C")" name="@examDetail.QuestionId" value="C" checked="@(answerSelect == "C" ? true : false)" />
+                </div>
+                <div>
+                    <label for="@(examDetail.QuestionId + "-C")">
+                        <span>C: </span>@examDetail.Question.AnswerC
+                    </label>
+                </div>
+            </div>
+            <div class="question-answer @(answerSelect == "D" && examDetail.Question.AnswerCorrect == "D" ? "bg-success text-white p-2 rounded" : (answerSelect == "D" && examDetail.Question.AnswerCorrect != "D" ? "bg-danger text-white p-2 rounded" : (examDetail.Question.AnswerCorrect == "D" ? "bg-light p-2 rounded" : "")))">
+                <div class="question-input">
+                    <input type="radio" id="@(examDetail.QuestionId + "-D")" name="@examDetail.QuestionId" value="D" checked="@(answerSelect == "D" ? true : false)" />
+                </div>
+                <div>
+                    <label for="@(examDetail.QuestionId + "-D")">
+                        <span>D: </span>@examDetail.Question.AnswerD
+                    </label>
+                </div>
+            </div>
+            <p class="mt-2 font-weight-bold @(isAnswerCorrect != 0 ? (isAnswerCorrect == 1 ? "text-success" : "text-danger") : "text-primary")">
+                @(isAnswerCorrect != 0 ? (isAnswerCorrect == 1 ? "Đúng" : "Sai") : "Chưa chọn")
+                @if (isAnswerCorrect == 2 || isAnswerCorrect == 0)
+                {
+                    <span class="text-muted ml-2">(Đáp án đúng: @examDetail.Question.AnswerCorrect)</span>
+                }
+            </p>
+        </div>
+    </div>
+}
+
+<div class="d-flex mt-4">
+    <form action="/history/eventexporthistory" method="post">
+        <input class="d-none" type="number" name="historyId" value="@Model.Id" />
+        <button class="btn-base m-btn-grey text-white" id="btn-export-excel">
+            Xuất Excel
+        </button>
+    </form>
+
+    <a class="btn-base m-btn-primary text-white ml-2" href="~/bo-de/lam-de/@Model.ExamId" id="btn-do-again">
+        Thi lại ngay
+    </a>
+    <button class="btn-base m-btn-secondary text-white btn-submit-exam ml-2" id="btn-submit-again">Chấm lại</button>
+</div>

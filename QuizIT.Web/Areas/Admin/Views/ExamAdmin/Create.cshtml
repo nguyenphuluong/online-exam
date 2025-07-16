@@ -1,0 +1,179 @@
+﻿@using QuizIT.Service.Entities
+@using QuizIT.Service.Models
+@using QuizIT.Common.Models
+
+@{
+    ViewData["Title"] = "QuizIT Admin | Thêm bộ đề";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var categoryLst = ViewBag.CategoryLst as List<Category>;
+}
+
+@section scripts{
+    <script src="~/js/admin/exam.js"></script>
+    <script>loadTableQuestion({})</script>
+}
+
+<h1 class="cotent-title">Thêm bộ đề</h1>
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="~/admin/bo-de">Danh sách bộ đề</a>
+    </li>
+    <li class="breadcrumb-item active"><a href="~/admin/bo-de/tao">Thêm bộ đề</a></li>
+</ol>
+<div class="content-card mt-4">
+    <div class="filter-group">
+        <h1 class="form-sub-title">Thông tin cơ bản</h1>
+        <form id="form-question">
+            <div class="form-group">
+                <span class="form-title required">Chủ đề</span>
+                <select class="form-input" type="text" name="CategoryId">
+                    @foreach (var category in categoryLst)
+                    {
+                        <option value="@category.Id">@category?.CategoryName.Trim()</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <span class="form-title required">Tên bộ đề</span>
+                <input class="form-input" type="text" name="ExamName" />
+            </div>
+            <div class="form-group">
+                <span class="form-title required">Thời gian làm (phút)</span>
+                <input class="form-input" type="number" name="Time" min="1" value="1" />
+            </div>
+            <div class="form-group">
+                <span class="form-title required">Trạng thái</span>
+                <select class="form-input" type="text" name="IsActive">
+                    <option value="true">Hoạt động</option>
+                    <option value="false">Không hoạt động</option>
+                </select>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="content-card mt-4">
+    <h1 class="form-sub-title">Danh sách câu hỏi</h1>
+    <div class="d-flex justify-content-end">
+        <button class="btn-base m-btn-secondary text-white" data-toggle="modal" data-target="#modal-question" id="btn-modal-question">
+            Chỉnh sửa
+        </button>
+    </div>
+    @*<p class="text-center mt-4">Không có dữ liệu</p>*@
+    <div class="table-responsive ten-item mt-4" id="table-question-exam">
+        <p class="text-center">Không có dữ liệu</p>
+        <!--<table class="table">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th class="mx-500">Câu hỏi</th>
+                    <th>Chủ đề</th>
+                    <th class="mx-500">Đáp án A</th>
+                    <th class="mx-500">Đáp án B</th>
+                    <th class="mx-500">Đáp án C</th>
+                    <th class="mx-500">Đáp án D</th>
+                    <th>Đáp án đúng</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-target="1">
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>5</td>
+                    <td>6</td>
+                    <td>7</td>
+                    <td>8</td>
+                </tr>-->
+        @* @foreach (var question in Model)
+            {
+                <tr>
+                    <td>@((filter.PageNumber - 1)*filter.PageSize + index)</td>
+                    <td>
+                        <a href="~/admin/cau-hoi/chi-tiet/@question.Id" data-title="@question.Content.Trim()">@question.Content.Trim()</a>
+                    </td>
+                    <td>@question.Category.CategoryName.Trim()</td>
+                    <td>@question.AnswerA.Trim()</td>
+                    <td>@question.AnswerB.Trim()</td>
+                    <td>@question.AnswerC.Trim()</td>
+                    <td>@question.AnswerD.Trim()</td>
+                    <td>@question.AnswerCorrect.Trim()</td>
+                </tr>
+                index++;
+            }*@
+
+        <!--</tbody>
+        </table>-->
+    </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal-question" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title font-weight-bold">Chọn câu hỏi</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid p-0">
+                    <div class="row">
+                        <div class="col-12 mb-3">
+                            <div class="filter-group">
+                                <form id="form-filter-question">
+                                    <div class="container-fluid p-0">
+                                        <div class="row">
+                                            <div class="col-md-4 col-12 mb-3">
+                                                <input type="text" class="form-input" placeholder="Câu hỏi" />
+                                            </div>
+                                            <div class="col-md-4 col-12 mb-3">
+                                                <select class="form-input">
+                                                    <option value="-1">Chủ đề: Tất cả</option>
+                                                    @foreach (var category in categoryLst)
+                                                    {
+                                                        <option value="@category.Id">Chủ đề: @category?.CategoryName.Trim()</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4 col-12 mb-3">
+                                                <button class="btn-base m-btn-secondary text-white">
+                                                    <i class="bx bx-search"></i>
+                                                    Tìm kiếm
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12 mb-3">
+                            <h1 class="form-sub-title">Danh sách câu hỏi</h1>
+                            <div class="table-responsive eight-item mt-4" id="table-question">
+                                @*Load table question vào đây*@
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12 mb-3">
+                            <h1 class="form-sub-title">Câu hỏi đã chọn: <span id="total-question-selected">0</span></h1>
+                            <div class="table-responsive eight-item mt-4" id="table-question-selected">
+                                <p class="text-center">Không có dữ liệu</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+                <button class="btn-base m-btn-primary text-white" id="btn-save-detail">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex justify-content-end mt-4">
+    <button class="btn-base m-btn-primary text-white" id="btn-create">Lưu</button>
+</div>

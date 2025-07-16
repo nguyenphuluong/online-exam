@@ -1,0 +1,105 @@
+﻿@using QuizIT.Service.Entities
+@using QuizIT.Service.Models
+@using QuizIT.Common.Models
+@model List<Exam>
+
+@{
+    ViewData["Title"] = "QuizIT | Danh sách bộ đề";
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
+    var paginationModel = ViewBag.PaginationModel as PaginationModel;
+    var filter = ViewBag.Filter as FilterExam;
+    var categoryLst = ViewBag.CategoryLst as List<Category>;
+}
+
+@section scripts{
+    <script src="~/js/client/exam.js"></script>
+}
+
+<h1 class="cotent-title">Danh sách bộ đề</h1>
+<div class="mt-4"></div>
+<div class="content-card mt-4">
+    <div class="filter-group">
+        <div class="container-fluid p-0">
+            <form id="form-filter">
+                <div class="row">
+                    <div class="col-md-3 col-12 mb-3">
+                        <input type="text" class="form-input" placeholder="Bộ đề" value="@filter.Name" />
+                    </div>
+                    <div class="col-md-3 col-12 mb-3">
+                        <select class="form-input">
+                            <option value="-1" selected="@(-1 == filter.Category ? true : false)">Chủ đề: Tất cả</option>
+                            @foreach (var category in categoryLst)
+                            {
+                                <option value="@category.Id" selected="@(category.Id == filter.Category ? true : false)">Chủ đề: @category?.CategoryName.Trim()</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-3 col-12 mb-3">
+                        <button class="btn-base m-btn-secondary text-white">
+                            <i class="bx bx-search"></i>
+                            Tìm kiếm
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    @if (Model.Count == 0)
+    {
+        <p class="text-center mt-4">Không có dữ liệu</p>
+    }
+    else
+    {
+        int index = 1;
+        <div class="table-responsive mt-4">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Bộ đề</th>
+                        <th>Chủ đề</th>
+                        <th>Thời gian làm</th>
+                        <th>Số lượng câu</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var question in Model)
+                    {
+                        <tr>
+                            <td>@((filter.PageNumber - 1)*filter.PageSize + index)</td>
+                            <td class="mx-200">
+                                <a href="~/bo-de/chi-tiet/@question.Id" data-title="@question.ExamName.Trim()">@question.ExamName.Trim()</a>
+                            </td>
+                            <td>@question.Category.CategoryName.Trim()</td>
+                            <td>@(question.Time.ToString() + " phút")</td>
+                            <td>@question.ExamDetail.Count</td>
+                        </tr>
+                        index++;
+                    }
+
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination d-flex align-items-center">
+            <ul class="d-flex align-items-center">
+                @if (paginationModel.PageNumber > 1)
+                {
+                    <li><a href="~/bo-de@(filter.GetQueryString(1, filter.Name, filter.Category))"><i class='bx bx-chevrons-left'></i></a></li>
+                    <li><a href="~/bo-de@(filter.GetQueryString(filter.PageNumber - 1, filter.Name, filter.Category))"><i class='bx bx-chevron-left'></i></a></li>
+                }
+                @foreach (var item in paginationModel.Pages)
+                {
+                    <li><a href="~/bo-de@(filter.GetQueryString(item, filter.Name, filter.Category))" class="@(item == paginationModel.PageNumber ? "active" : "")">@item</a></li>
+                }
+
+                @if (paginationModel.PageNumber < paginationModel.TotalPage)
+                {
+                    <li><a href="~/bo-de@(filter.GetQueryString(filter.PageNumber + 1, filter.Name, filter.Category))"><i class='bx bx-chevron-right'></i></a></li>
+                    <li><a href="~/bo-de@(filter.GetQueryString(paginationModel.TotalPage, filter.Name, filter.Category))"><i class='bx bx-chevrons-right'></i></a></li>
+                }
+            </ul>
+        </div>
+    }
+</div>
+
+

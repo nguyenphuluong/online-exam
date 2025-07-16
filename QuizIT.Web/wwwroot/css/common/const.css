@@ -1,0 +1,70 @@
+﻿:root {
+    --black-1: #222222;
+    --white-1: #ededed;
+    --main-color: #24695c;
+    --secondary-color: #ba895d;
+    --yellow-color: #f1cc0f;
+    --grey-color: #717171;
+    --white-2: #d0efe9;
+    --background-sub: #24695c1a;
+    --text-color: #242934;
+    --background-body: #f6f7fb;
+    --border-color: #ccd3d5;
+}
+
+.m-text-primary {
+    color: var(--main-color);
+}
+
+.m-bg-primary, .m-btn-primary {
+    background-color: var(--main-color) !important;
+}
+
+.m-btn-primary {
+    border-color: var(--main-color) !important;
+}
+
+    .m-bg-primary:hover, .m-btn-primary:hover {
+        background-color: #1b4c43 !important;
+    }
+
+    .m-btn-primary:hover {
+        border-color: #1b4c43 !important;
+    }
+
+.m-bg-secondary, .m-btn-secondary {
+    background-color: var(--secondary-color) !important;
+}
+
+.m-btn-secondary {
+    border-color: var(--secondary-color) !important;
+}
+
+    .m-bg-secondary:hover, .m-btn-secondary:hover {
+        background-color: #9f734c !important;
+    }
+
+
+.m-bg-yellow, .m-btn-yellow {
+    background-color: var(--yellow-color) !important;
+}
+
+.m-btn-yellow {
+    border-color: var(--yellow-color) !important;
+}
+
+    .m-bg-yellow:hover, .m-btn-yellow:hover {
+        background-color: #d3b30f !important;
+    }
+
+.m-bg-grey, .m-btn-grey {
+    background-color: var(--grey-color) !important;
+}
+
+.m-btn-grey {
+    border-color: var(--grey-color) !important;
+}
+
+    .m-bg-grey:hover, .m-btn-grey:hover {
+        background-color: #4c4b4b !important;
+    }

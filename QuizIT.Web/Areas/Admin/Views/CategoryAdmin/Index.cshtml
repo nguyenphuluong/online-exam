@@ -1,0 +1,100 @@
+﻿@using QuizIT.Service.Entities
+@using QuizIT.Service.Models
+@using QuizIT.Common.Models
+@model List<Category>
+
+@{
+    ViewData["Title"] = "QuizIT Admin | Danh sách chủ đề";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var paginationModel = ViewBag.PaginationModel as PaginationModel;
+    var filter = ViewBag.Filter as FilterCategory;
+}
+
+@section scripts{
+    <script src="~/js/admin/category.js"></script>
+}
+<h1 class="cotent-title">Danh sách chủ đề</h1>
+<div class="d-flex justify-content-end mt-4">
+    <button class="btn-base m-btn-primary text-white" id="btn-modal" data-action="1" data-target-id="0">
+        <i class="bx bx-plus"></i>
+        Thêm chủ đề
+    </button>
+</div>
+<div class="content-card">
+    <div class="filter-group">
+        <div class="container-fluid p-0">
+            <form id="form-filter">
+                <div class="row">
+                    <div class="col-md-3 col-12 mb-3">
+                        <input type="text" class="form-input" placeholder="Từ khoá" value="@filter.Name"/>
+                    </div>
+                    <div class="col-md-3 col-12 mb-3">
+                        <button class="btn-base m-btn-secondary text-white">
+                            <i class="bx bx-search"></i>
+                            Tìm kiếm
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    @if (Model.Count == 0)
+    {
+        <p class="text-center mt-4">Không có dữ liệu</p>
+    }
+    else
+    {
+        int index = 1;
+        <div class="table-responsive mt-4">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Tên chủ đề</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var category in Model)
+                    {
+                        <tr>
+                            <td>@((filter.PageNumber - 1)*filter.PageSize + index)</td>
+                            <td id="btn-modal" data-action="2" data-target-id="@category.Id">@category?.CategoryName.Trim()</td>
+                        </tr>
+                        index++;
+                    }
+
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination d-flex align-items-center">
+            <ul class="d-flex align-items-center">
+                @if (paginationModel.PageNumber > 1)
+                {
+                    <li><a href="~/admin/chu-de@(filter.GetQueryString(1, filter.Name))"><i class='bx bx-chevrons-left'></i></a></li>
+                    <li><a href="~/admin/chu-de@(filter.GetQueryString(filter.PageNumber - 1, filter.Name))"><i class='bx bx-chevron-left'></i></a></li>
+                }
+                @foreach (var item in paginationModel.Pages)
+                {
+                    <li><a href="~/admin/chu-de@(filter.GetQueryString(item, filter.Name))" class="@(item == paginationModel.PageNumber ? "active" : "")">@item</a></li>
+                }
+
+                @if (paginationModel.PageNumber < paginationModel.TotalPage)
+                {
+                    <li><a href="~/admin/chu-de@(filter.GetQueryString(filter.PageNumber + 1, filter.Name))"><i class='bx bx-chevron-right'></i></a></li>
+                    <li><a href="~/admin/chu-de@(filter.GetQueryString(paginationModel.TotalPage, filter.Name))"><i class='bx bx-chevrons-right'></i></a></li>
+                }
+            </ul>
+        </div>
+    }
+</div>
+
+<!-- Button trigger modal -->
+<button class="d-none" data-toggle="modal" data-target="#modal-category" id="modal-category-btn">
+</button>
+<!-- Modal -->
+<div class="modal fade" id="modal-category" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" id="modal-category-content">
+        </div>
+    </div>
+</div>

@@ -1,0 +1,150 @@
+﻿@using QuizIT.Service.Entities
+@using QuizIT.Service.Models
+@using QuizIT.Common.Models
+@model List<Question>
+
+@{
+    ViewData["Title"] = "QuizIT Admin | Danh sách câu hỏi";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var paginationModel = ViewBag.PaginationModel as PaginationModel;
+    var filter = ViewBag.Filter as FilterQuestion;
+    var categoryLst = ViewBag.CategoryLst as List<Category>;
+}
+
+@section scripts{
+    <script src="~/js/admin/question.js"></script>
+}
+<h1 class="cotent-title">Danh sách câu hỏi</h1>
+<div class="d-flex justify-content-end mt-4">
+    <button class="btn-base m-btn-grey text-white" data-toggle="modal" data-target="#modal-excel">
+        <i class="bx bxs-file-import"></i>
+        Nhập từ Excel
+    </button>
+    <a class="btn-base m-btn-primary text-white ml-2" href="~/admin/cau-hoi/tao">
+        <i class="bx bx-plus"></i>
+        Thêm câu hỏi
+    </a>
+</div>
+<div class="content-card">
+    <div class="filter-group">
+        <div class="container-fluid p-0">
+            <form id="form-filter">
+                <div class="row">
+                    <div class="col-md-3 col-12 mb-3">
+                        <input type="text" class="form-input" placeholder="Câu hỏi" value="@filter.Name" />
+                    </div>
+                    <div class="col-md-3 col-12 mb-3">
+                        <select class="form-input">
+                            <option value="-1" selected="@(-1 == filter.Category ? true : false)">Chủ đề: Tất cả</option>
+                            @foreach (var category in categoryLst)
+                            {
+                                <option value="@category.Id" selected="@(category.Id == filter.Category ? true : false)">Chủ đề: @category?.CategoryName.Trim()</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-3 col-12 mb-3">
+                        <button class="btn-base m-btn-secondary text-white">
+                            <i class="bx bx-search"></i>
+                            Tìm kiếm
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    @if (Model.Count == 0)
+    {
+        <p class="text-center mt-4">Không có dữ liệu</p>
+    }
+    else
+    {
+        int index = 1;
+        <div class="table-responsive mt-4">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Câu hỏi</th>
+                        <th>Chủ đề</th>
+                        <th>Đáp án A</th>
+                        <th>Đáp án B</th>
+                        <th>Đáp án C</th>
+                        <th>Đáp án D</th>
+                        <th>Đáp án đúng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var question in Model)
+                    {
+                        <tr>
+                            <td>@((filter.PageNumber - 1)*filter.PageSize + index)</td>
+                            <td class="mx-500">
+                                <a href="~/admin/cau-hoi/chi-tiet/@question.Id" data-title="@question.Content.Trim()">@question.Content.Trim()</a>
+                            </td>
+                            <td>@question.Category.CategoryName.Trim()</td>
+                            <td class="mx-500">@question.AnswerA.Trim()</td>
+                            <td class="mx-500">@question.AnswerB.Trim()</td>
+                            <td class="mx-500">@question.AnswerC.Trim()</td>
+                            <td class="mx-500">@question.AnswerD.Trim()</td>
+                            <td>@question.AnswerCorrect.Trim()</td>
+                        </tr>
+                        index++;
+                    }
+
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination d-flex align-items-center">
+            <ul class="d-flex align-items-center">
+                @if (paginationModel.PageNumber > 1)
+                {
+                    <li><a href="~/admin/cau-hoi@(filter.GetQueryString(1, filter.Name, filter.Category))"><i class='bx bx-chevrons-left'></i></a></li>
+                    <li><a href="~/admin/cau-hoi@(filter.GetQueryString(filter.PageNumber - 1, filter.Name, filter.Category))"><i class='bx bx-chevron-left'></i></a></li>
+                }
+                @foreach (var item in paginationModel.Pages)
+                {
+                    <li><a href="~/admin/cau-hoi@(filter.GetQueryString(item, filter.Name, filter.Category))" class="@(item == paginationModel.PageNumber ? "active" : "")">@item</a></li>
+                }
+
+                @if (paginationModel.PageNumber < paginationModel.TotalPage)
+                {
+                    <li><a href="~/admin/cau-hoi@(filter.GetQueryString(filter.PageNumber + 1, filter.Name, filter.Category))"><i class='bx bx-chevron-right'></i></a></li>
+                    <li><a href="~/admin/cau-hoi@(filter.GetQueryString(paginationModel.TotalPage, filter.Name, filter.Category))"><i class='bx bx-chevrons-right'></i></a></li>
+                }
+            </ul>
+        </div>
+    }
+</div>
+
+<!-- Modal import excel-->
+<div class="modal fade" id="modal-excel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" id="modal-category-content">
+            <div class="modal-header">
+                <h5 class="modal-title font-weight-bold">Nhập từ Excel</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="form-category">
+                    <div class="form-group">
+                        <input type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" id="input-excel" />
+                    </div>
+                    <div class="form-group">
+                        <span class="form-title required">Chủ đề</span>
+                        <select class="form-input" id="select-category">
+                            @foreach (var category in categoryLst)
+                            {
+                                <option value="@category.Id">@category?.CategoryName.Trim()</option>
+                            }
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-base m-btn-yellow text-white" id="btn-import">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>

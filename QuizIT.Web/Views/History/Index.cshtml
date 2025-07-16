@@ -1,0 +1,125 @@
+﻿@using QuizIT.Service.Entities
+@using QuizIT.Service.Models
+@using QuizIT.Common.Models
+@using static QuizIT.Common.Constant.Role;
+@model List<History>
+
+@{
+    ViewData["Title"] = "QuizIT | Lịch sử làm đề";
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
+    var paginationModel = ViewBag.PaginationModel as PaginationModel;
+    var filter = ViewBag.Filter as FilterHistory;
+    var examLst = ViewBag.ExamLst as List<Exam>;
+    var userLst = ViewBag.UserLst as List<User>;
+}
+
+@section scripts{
+    <script src="~/js/client/exam.js"></script>
+}
+
+<h1 class="cotent-title">Lịch sử làm đề</h1>
+<div class="mt-4"></div>
+<div class="content-card mt-4">
+    <div class="filter-group">
+        <div class="container-fluid p-0">
+            <form id="form-filter-history">
+                <div class="row">
+                    <div class="col-md-6 col-12 mb-3">
+                        <select class="form-input" id="select-exam">
+                            <option value="-1" selected="@(-1 == filter.ExamId ? true : false)">Bộ đề: Tất cả</option>
+                            @foreach (var exam in examLst)
+                            {
+                                <option value="@exam.Id" selected="@(exam.Id == filter.ExamId ? true : false)">Bộ đề: @exam.ExamName.Trim()</option>
+                            }
+                        </select>
+                    </div>
+                    @if (CurrentUser.Role == ADMIN)
+                    {
+                        <div class="col-md-3 col-12 mb-3">
+                            <select class="form-input" id="select-user">
+                                <option value="-1" selected="@(-1 == filter.UserId ? true : false)">Người dùng: Tất cả</option>
+                                <option value="@CurrentUser.Id" selected="@(CurrentUser.Id == filter.UserId ? true : false)">Người dùng: @CurrentUser.Name.Trim()</option>
+                                @foreach (var user in userLst)
+                                {
+                                    <option value="@user.Id" selected="@(user.Id == filter.UserId ? true : false)">Người dùng: @user.FullName.Trim()</option>
+                                }
+                            </select>
+                        </div>
+                    }
+                    <div class="col-md-3 col-12 mb-3">
+                        <button class="btn-base m-btn-secondary text-white">
+                            <i class="bx bx-search"></i>
+                            Tìm kiếm
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    @if (Model.Count == 0)
+    {
+        <p class="text-center mt-4">Không có dữ liệu</p>
+    }
+    else
+    {
+        int index = 1;
+        <div class="table-responsive mt-4">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Bộ đề</th>
+                        <th>Thời gian hoàn thành</th>
+                        <th>Số điểm</th>
+                        @if (CurrentUser.Role == ADMIN)
+                        {
+                            <th>Người làm</th>
+                        }
+                        <th>Ngày làm</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var history in Model)
+                    {
+                        int second = Convert.ToInt32(history.TimeDoExam * 60);
+                        <tr>
+                            <td>@((filter.PageNumber - 1)*filter.PageSize + index)</td>
+                            <td class="mx-500">
+                                <a href="~/lich-su/chi-tiet/@history.Id" data-title="@history.Exam.ExamName.Trim()" target="_blank">@history.Exam.ExamName.Trim()</a>
+                            </td>
+                            <td>@((second/60) + " phút " + (second%60) + " giây")</td>
+                            <td>@history.Point</td>
+                            @if (CurrentUser.Role == ADMIN)
+                            {
+                                <td>@history.User.FullName</td>
+                            }
+                            <td>@history.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                        </tr>
+                        index++;
+                    }
+
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination d-flex align-items-center">
+            <ul class="d-flex align-items-center">
+                @if (paginationModel.PageNumber > 1)
+                {
+                    <li><a href="~/lich-su@(filter.GetQueryString(1, filter.ExamId, filter.UserId))"><i class='bx bx-chevrons-left'></i></a></li>
+                    <li><a href="~/lich-su@(filter.GetQueryString(filter.PageNumber - 1, filter.ExamId, filter.UserId))"><i class='bx bx-chevron-left'></i></a></li>
+                }
+                @foreach (var item in paginationModel.Pages)
+                {
+                    <li><a href="~/lich-su@(filter.GetQueryString(item, filter.ExamId, filter.UserId))" class="@(item == paginationModel.PageNumber ? "active" : "")">@item</a></li>
+                }
+
+                @if (paginationModel.PageNumber < paginationModel.TotalPage)
+                {
+                    <li><a href="~/lich-su@(filter.GetQueryString(filter.PageNumber + 1, filter.ExamId, filter.UserId))"><i class='bx bx-chevron-right'></i></a></li>
+                    <li><a href="~/lich-su@(filter.GetQueryString(paginationModel.TotalPage, filter.ExamId, filter.UserId))"><i class='bx bx-chevrons-right'></i></a></li>
+                }
+            </ul>
+        </div>
+    }
+</div>
+

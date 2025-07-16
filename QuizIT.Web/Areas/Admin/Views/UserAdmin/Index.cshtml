@@ -1,0 +1,114 @@
+﻿@using QuizIT.Service.Entities
+@using QuizIT.Service.Models
+@using QuizIT.Common.Models
+@model List<User>
+
+@{
+    ViewData["Title"] = "QuizIT Admin | Danh sách người dùng";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var paginationModel = ViewBag.PaginationModel as PaginationModel;
+    var filter = ViewBag.Filter as FilterUser;
+    var roleLst = ViewBag.RoleLst as List<Role>;
+}
+
+@section scripts{
+    <script src="~/js/admin/user.js"></script>
+}
+<h1 class="cotent-title">Danh sách người dùng</h1>
+<div class="d-flex justify-content-end mt-4">
+    <button class="btn-base m-btn-primary text-white" id="btn-modal" data-action="1" data-target-id="0">
+        <i class="bx bx-plus"></i>
+        Thêm người dùng
+    </button>
+</div>
+<div class="content-card">
+    <div class="filter-group">
+        <div class="container-fluid p-0">
+            <form id="form-filter">
+                <div class="row">
+                    <div class="col-md-3 col-12 mb-3">
+                        <input type="text" class="form-input" placeholder="Từ khoá" value="@filter.Name" />
+                    </div>
+                    <div class="col-md-3 col-12 mb-3">
+                        <select class="form-input">
+                            <option value="-1" selected="@(-1 == filter.Role ? true : false)">Quyền: Tất cả</option>
+                            @foreach (var role in roleLst)
+                            {
+                                <option value="@role.Id" selected="@(role.Id == filter.Role ? true : false)">Quyền: @role.RoleName.Trim()</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-3 col-12 mb-3">
+                        <button class="btn-base m-btn-secondary text-white">
+                            <i class="bx bx-search"></i>
+                            Tìm kiếm
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    @if (Model.Count == 0)
+    {
+        <p class="text-center mt-4">Không có dữ liệu</p>
+    }
+    else
+    {
+        int index = 1;
+        <div class="table-responsive mt-4">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Họ và tên</th>
+                        <th>Tên đăng nhập</th>
+                        <th>Quyền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@((filter.PageNumber - 1)*filter.PageSize + index)</td>
+                            <td id="btn-modal" data-action="2" data-target-id="@user.Id">@user.FullName.Trim()</td>
+                            <td>@user.UserName.Trim()</td>
+                            <td>@user.Role.RoleName.Trim()</td>
+                        </tr>
+                        index++;
+                    }
+
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination d-flex align-items-center">
+            <ul class="d-flex align-items-center">
+                @if (paginationModel.PageNumber > 1)
+                {
+                    <li><a href="~/admin/nguoi-dung@(filter.GetQueryString(1, filter.Name, filter.Role))"><i class='bx bx-chevrons-left'></i></a></li>
+                    <li><a href="~/admin/nguoi-dung@(filter.GetQueryString(filter.PageNumber - 1, filter.Name, filter.Role))"><i class='bx bx-chevron-left'></i></a></li>
+                }
+                @foreach (var item in paginationModel.Pages)
+                {
+                    <li><a href="~/admin/nguoi-dung@(filter.GetQueryString(item, filter.Name, filter.Role))" class="@(item == paginationModel.PageNumber ? "active" : "")">@item</a></li>
+                }
+
+                @if (paginationModel.PageNumber < paginationModel.TotalPage)
+                {
+                    <li><a href="~/admin/nguoi-dung@(filter.GetQueryString(filter.PageNumber + 1, filter.Name, filter.Role))"><i class='bx bx-chevron-right'></i></a></li>
+                    <li><a href="~/admin/nguoi-dung@(filter.GetQueryString(paginationModel.TotalPage, filter.Name, filter.Role))"><i class='bx bx-chevrons-right'></i></a></li>
+                }
+            </ul>
+        </div>
+    }
+</div>
+
+<!-- Button trigger modal -->
+<button class="d-none" data-toggle="modal" data-target="#modal-user" id="modal-user-btn">
+</button>
+<!-- Modal -->
+<div class="modal fade" id="modal-user" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" id="modal-user-content">
+        </div>
+    </div>
+</div>

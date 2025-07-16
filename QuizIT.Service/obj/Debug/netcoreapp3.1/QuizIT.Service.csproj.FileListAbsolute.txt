@@ -1,0 +1,17 @@
+C:\Users\nhannhan\Documents\Source_Code_Khong_Duoc_Xoa\Asp\DATN_UTC_2023\QuizIT\QuizIT.Service\bin\Debug\netcoreapp3.1\QuizIT.Service.deps.json
+C:\Users\nhannhan\Documents\Source_Code_Khong_Duoc_Xoa\Asp\DATN_UTC_2023\QuizIT\QuizIT.Service\bin\Debug\netcoreapp3.1\QuizIT.Service.runtimeconfig.json
+C:\Users\nhannhan\Documents\Source_Code_Khong_Duoc_Xoa\Asp\DATN_UTC_2023\QuizIT\QuizIT.Service\bin\Debug\netcoreapp3.1\QuizIT.Service.runtimeconfig.dev.json
+C:\Users\nhannhan\Documents\Source_Code_Khong_Duoc_Xoa\Asp\DATN_UTC_2023\QuizIT\QuizIT.Service\bin\Debug\netcoreapp3.1\QuizIT.Service.dll
+C:\Users\nhannhan\Documents\Source_Code_Khong_Duoc_Xoa\Asp\DATN_UTC_2023\QuizIT\QuizIT.Service\bin\Debug\netcoreapp3.1\QuizIT.Service.pdb
+C:\Users\nhannhan\Documents\Source_Code_Khong_Duoc_Xoa\Asp\DATN_UTC_2023\QuizIT\QuizIT.Service\bin\Debug\netcoreapp3.1\QuizIT.Common.dll
+C:\Users\nhannhan\Documents\Source_Code_Khong_Duoc_Xoa\Asp\DATN_UTC_2023\QuizIT\QuizIT.Service\bin\Debug\netcoreapp3.1\QuizIT.Common.pdb
+C:\Users\nhannhan\Documents\Source_Code_Khong_Duoc_Xoa\Asp\DATN_UTC_2023\QuizIT\QuizIT.Service\obj\Debug\netcoreapp3.1\QuizIT.Service.csproj.AssemblyReference.cache
+C:\Users\nhannhan\Documents\Source_Code_Khong_Duoc_Xoa\Asp\DATN_UTC_2023\QuizIT\QuizIT.Service\obj\Debug\netcoreapp3.1\QuizIT.Service.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nhannhan\Documents\Source_Code_Khong_Duoc_Xoa\Asp\DATN_UTC_2023\QuizIT\QuizIT.Service\obj\Debug\netcoreapp3.1\QuizIT.Service.AssemblyInfoInputs.cache
+C:\Users\nhannhan\Documents\Source_Code_Khong_Duoc_Xoa\Asp\DATN_UTC_2023\QuizIT\QuizIT.Service\obj\Debug\netcoreapp3.1\QuizIT.Service.AssemblyInfo.cs
+C:\Users\nhannhan\Documents\Source_Code_Khong_Duoc_Xoa\Asp\DATN_UTC_2023\QuizIT\QuizIT.Service\obj\Debug\netcoreapp3.1\QuizIT.Service.csproj.CoreCompileInputs.cache
+C:\Users\nhannhan\Documents\Source_Code_Khong_Duoc_Xoa\Asp\DATN_UTC_2023\QuizIT\QuizIT.Service\obj\Debug\netcoreapp3.1\QuizIT.Service.sourcelink.json
+C:\Users\nhannhan\Documents\Source_Code_Khong_Duoc_Xoa\Asp\DATN_UTC_2023\QuizIT\QuizIT.Service\obj\Debug\netcoreapp3.1\QuizIT.S.F68C08C8.Up2Date
+C:\Users\nhannhan\Documents\Source_Code_Khong_Duoc_Xoa\Asp\DATN_UTC_2023\QuizIT\QuizIT.Service\obj\Debug\netcoreapp3.1\QuizIT.Service.dll
+C:\Users\nhannhan\Documents\Source_Code_Khong_Duoc_Xoa\Asp\DATN_UTC_2023\QuizIT\QuizIT.Service\obj\Debug\netcoreapp3.1\QuizIT.Service.pdb
+C:\Users\nhannhan\Documents\Source_Code_Khong_Duoc_Xoa\Asp\DATN_UTC_2023\QuizIT\QuizIT.Service\obj\Debug\netcoreapp3.1\QuizIT.Service.genruntimeconfig.cache

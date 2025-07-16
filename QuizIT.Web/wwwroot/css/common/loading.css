@@ -1,0 +1,26 @@
+﻿.my-loading {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 10001;
+    background-color: #0000004f;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.card-loading {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    background-color: #0000004f;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}

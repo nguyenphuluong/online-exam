@@ -1,0 +1,38 @@
+﻿@using QuizIT.Service.Entities
+@model Category
+
+
+<div class="modal-header">
+    <h5 class="modal-title font-weight-bold">@(ViewBag.Action == 1 ? "Thêm chủ đề" : "Chi tiết chủ đề")</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form id="form-category">
+        <input class="d-none" type="text" name="Id" value="@ViewBag.CategoryId" />
+        <div class="form-group">
+            <span class="form-title required">Tên chủ đề</span>
+            <input class="form-input" type="text" name="CategoryName" value="@(ViewBag.Action == 1 ? "" : Model.CategoryName)" />
+        </div>
+        @if (ViewBag.Action != 1)
+        {
+            <div class="form-group">
+                <span class="form-title required">Ngày tạo</span>
+                <input class="form-input" type="text" value="@Model.CreateAt.ToString("dd/MM/yyyy")" readonly />
+            </div>
+        }
+    </form>
+</div>
+<div class="modal-footer">
+    @if (ViewBag.Action == 1)
+    {
+        <button class="btn-base m-btn-yellow text-white" id="btn-create">Lưu</button>
+    }
+    else
+    {
+        <button class="btn-base bg-danger text-white" id="btn-delete">Xoá</button>
+        <button class="btn-base m-btn-yellow text-white ml-2" id="btn-update">Lưu</button>
+    }
+
+</div>

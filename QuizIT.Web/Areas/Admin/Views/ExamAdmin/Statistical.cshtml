@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewData["Title"] = "QuizIT Admin | Thống kê bộ đề";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    int top = ViewBag.Top;
+}
+
+
+@section scripts{
+    @*import chart.js*@
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <script>
+        var ctx = document.getElementById('exam-chart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: @Html.Raw(ViewBag.Labels),
+                datasets: [{
+                    label: 'Số lượt làm',
+                    data: @ViewBag.Data,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.5)',
+                        'rgba(255, 159, 64, 0.5)',
+                        'rgba(134, 192, 75, 0.5)',
+                        'rgba(75, 192, 192, 0.5)',
+                        'rgba(153, 102, 255, 0.5)',
+                        
+                    ],
+                    borderColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(255, 159, 64)',
+                        'rgb(134, 192, 75)',
+                        'rgb(75, 192, 192)',
+                        'rgb(153, 102, 255)',
+                        
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false,
+                    }
+                }
+            }
+        });
+    </script>
+}
+
+<h1 class="cotent-title">Thống kê bộ đề</h1>
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="~/admin/bo-de">Danh sách bộ đề</a>
+    </li>
+    <li class="breadcrumb-item active"><a href="~/admin/bo-de/thong-ke">Thống kê bộ đề</a></li>
+</ol>
+<div class="content-card mt-4">
+    <div class="filter-group">
+        <h1 class="form-sub-title">Top 5 bộ đề có nhiều lượt làm nhất</h1>
+    </div>
+    ﻿<canvas id="exam-chart">
+        @*vẽ biểu đồ vào đây*@
+    </canvas>
+</div>

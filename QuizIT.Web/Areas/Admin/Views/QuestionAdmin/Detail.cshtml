@@ -1,0 +1,77 @@
+﻿@using QuizIT.Service.Entities
+@using QuizIT.Service.Models
+@using QuizIT.Common.Models
+@model Question
+
+@{
+    ViewData["Title"] = "QuizIT Admin | Chi tiết câu hỏi";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var categoryLst = ViewBag.CategoryLst as List<Category>;
+}
+
+@section scripts{
+    <script src="~/js/admin/question.js"></script>
+}
+<h1 class="cotent-title">Chi tiết câu hỏi</h1>
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="~/admin/cau-hoi">Danh sách câu hỏi</a>
+    </li>
+    <li class="breadcrumb-item active"><a href="~/admin/cau-hoi/chi-tiet/@Model.Id">Chi tiết câu hỏi</a></li>
+</ol>
+<div class="content-card mt-4">
+    <h1 class="form-sub-title">Thông tin cơ bản</h1>
+    <form id="form-question">
+        <input class="d-none" name="Id" value="@Model.Id" />
+        <div class="form-group">
+            <span class="form-title required">Chủ đề</span>
+            <select class="form-input" type="text" name="CategoryId">
+                @foreach (var category in categoryLst)
+                {
+                    <option value="@category.Id" selected="@(Model.CategoryId == category.Id ? true : false)">@category?.CategoryName.Trim()</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <span class="form-title required">Câu hỏi</span>
+            <textarea class="form-input" type="text" name="Content" cols="5">@Model.Content.Trim()</textarea>
+        </div>
+        <div class="form-group">
+            <span class="form-title required">Đáp án A</span>
+            <textarea class="form-input" type="text" name="AnswerA" cols="5">@Model.AnswerA.Trim()</textarea>
+        </div>
+        <div class="form-group">
+            <span class="form-title required">Đáp án B</span>
+            <textarea class="form-input" type="text" name="AnswerB" cols="5">@Model.AnswerB.Trim()</textarea>
+        </div>
+        <div class="form-group">
+            <span class="form-title required">Đáp án C</span>
+            <textarea class="form-input" type="text" name="AnswerC" cols="5">@Model.AnswerC.Trim()</textarea>
+        </div>
+        <div class="form-group">
+            <span class="form-title required">Đáp án D</span>
+            <textarea class="form-input" type="text" name="AnswerD" cols="5">@Model.AnswerD.Trim()</textarea>
+        </div>
+        <div class="form-group">
+            <span class="form-title required">Đáp án đúng</span>
+            <select class="form-input" type="text" name="AnswerCorrect">
+                <option value="A" selected="@(Model.AnswerCorrect == "A" ? true : false)">A</option>
+                <option value="B" selected="@(Model.AnswerCorrect == "B" ? true : false)">B</option>
+                <option value="C" selected="@(Model.AnswerCorrect == "C" ? true : false)">C</option>
+                <option value="D" selected="@(Model.AnswerCorrect == "D" ? true : false)">D</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <span class="form-title required">Người tạo</span>
+            <input class="form-input" type="text" value="@Model.CreatedByNavigation.FullName" readonly />
+        </div>
+        <div class="form-group">
+            <span class="form-title required">Ngày tạo</span>
+            <input class="form-input" type="text" value="@Model.CreatedAt.ToString("dd/MM/yyyy")" readonly />
+        </div>
+    </form>
+</div>
+<div class="d-flex justify-content-end mt-4">
+    <button class="btn-base bg-danger text-white" id="btn-delete">Xoá</button>
+    <button class="btn-base m-btn-primary text-white ml-2" id="btn-update">Lưu</button>
+</div>

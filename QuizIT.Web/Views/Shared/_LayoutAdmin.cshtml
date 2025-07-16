@@ -1,0 +1,81 @@
+﻿@using QuizIT.Common.Models;
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    @*logo*@
+    <link rel="shortcut icon" type="image/x-icon" href="~/img/logo.png">
+    @*script*@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/lib/toastr/build/toastr.min.js"></script>
+    <script src="~/js/common/common.js"></script>
+    @*css*@
+    <link href="~/lib/boxicons/css/boxicons.min.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/lib/toastr/build/toastr.min.css" rel="stylesheet" />
+    <link href="~/css/common/loading.css" rel="stylesheet" />
+    <link href="~/css/common/const.css" rel="stylesheet" />
+    <link href="~/css/common/common.css" rel="stylesheet" />
+</head>
+<body>
+    @* div để hiện loading*@
+    <div class="my-loading">
+        <div class="spinner-border m-text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <header class="header d-flex justify-content-between align-items-center">
+        <div class="w-25">
+            <button class="btn-base d-flex align-items-center" id="btn-sidebar">
+                <i class="bx bx-menu"></i>
+            </button>
+        </div>
+        <div class="w-75">
+            <span>Xin chào, @CurrentUser.Name</span>
+        </div>
+    </header>
+    <div class="body">
+        <div class="sidebar">
+            <div class="d-flex flex-column overflow-hidden">
+                <div class="sidebar-logo">
+                    <a href="admin.html" class="sidebar-link">
+                        <img src="~/img/logo.png" alt="logo" />
+                        <span>QuizIT Admin</span>
+                    </a>
+                </div>
+                <div class="sidebar-list">
+                    <a href="~/admin/bo-de" class="sidebar-item sidebar-link @(ViewBag.ActivePage == "exam" ? "active" : "")">
+                        <i class="bx bx-notepad"></i>
+                        <span>Bộ đề</span>
+                    </a>
+                    <a href="~/admin/cau-hoi" class="sidebar-item sidebar-link @(ViewBag.ActivePage == "question" ? "active" : "")">
+                        <i class="bx bx-question-mark"></i>
+                        <span>Câu hỏi</span>
+                    </a>
+                    <a href="~/admin/chu-de" class="sidebar-item sidebar-link @(ViewBag.ActivePage == "category" ? "active" : "")">
+                        <i class="bx bx-purchase-tag-alt"></i>
+                        <span>Chủ đề</span>
+                    </a>
+                    <a href="~/admin/nguoi-dung" class="sidebar-item sidebar-link @(ViewBag.ActivePage == "user" ? "active" : "")">
+                        <i class="bx bx-user"></i>
+                        <span>Người dùng</span>
+                    </a>
+                    <a href="~/bo-de" class="sidebar-item sidebar-link">
+                        <i class="bx bx-home"></i>
+                        <span>Trang chủ</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            @RenderBody()
+        </div>
+    </div>
+    @RenderSection("scripts", required: false)
+</body>
+</html>
