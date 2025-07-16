@@ -23,4 +23,4 @@ ENV ASPNETCORE_URLS=http://+:10000
 EXPOSE 10000
 
 # Entrypoint chạy đúng file .dll
-ENTRYPOINT ["dotnet", "QuizIT.Web.dll"]
+ENTRYPOINT ["dotnet", "Quiz.Web.dll"]
