@@ -1,19 +1,26 @@
-# Use official .NET SDK image to build the app
+# Giai đoạn build
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
-# Copy everything and restore dependencies
-COPY . . 
+# Copy toàn bộ source code
+COPY . .
+
+# Di chuyển vào project Web
 WORKDIR /app/QuizIT.Web
+
+# Publish ứng dụng ra thư mục /out
 RUN dotnet publish -c Release -o /out
 
-# Use a smaller runtime image
+# Giai đoạn runtime
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
+
+# Copy kết quả build từ stage build vào runtime
 COPY --from=build /out ./
 
-# Expose port (Render uses 10000 internally)
+# Render yêu cầu chạy cổng 10000
 ENV ASPNETCORE_URLS=http://+:10000
 EXPOSE 10000
 
+# Entrypoint chạy đúng file .dll
 ENTRYPOINT ["dotnet", "QuizIT.Web.dll"]
